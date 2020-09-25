@@ -10,13 +10,11 @@ export const userLoggedOut = () => ({
 });
 
 export const login = credentials => dispatch => {
-    console.log("User/Pass", credentials);
     // do the api login request here
     const user = { token: "asd", isAuthenticated: true };
-    dispatch(userLoggedIn(user));
+    dispatch(userLoggedIn(user))
 };
 
 export const logout = () => dispatch => {
-    // do the api logout request here
     dispatch(userLoggedOut());
 };
