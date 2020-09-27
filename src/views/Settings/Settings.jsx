@@ -1,12 +1,12 @@
 import React from 'react';
 import { Layout } from '../../components/index';
 
-const Jobs = (props) => {
+const Settings = (props) => {
     return (
         <Layout currentLocation={props.history.location.pathname}>
-            <p>Jobs</p>
+            <p>Settings</p>
         </Layout>
     );
 }
 
-export default Jobs;
+export default Settings;

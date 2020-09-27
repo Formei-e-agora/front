@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { history } from '../../helpers';
-import { Feed, Jobs, Login, NotFound, Register } from '../index';
+import { Feed, Jobs, Login, NotFound, Register, Settings, Notifications } from '../index';
 import { PrivateRoute } from '../../components/index';
 import './App.css';
 
@@ -16,6 +16,8 @@ const App = () => (
       <Route exact path="/register" component={Register} />
       <PrivateRoute exact path="/feed" component={Feed} />
       <PrivateRoute exact path="/jobs" component={Jobs} />
+      <PrivateRoute exact path="/settings" component={Settings} />
+      <PrivateRoute exact path="/notifications" component={Notifications} />
       <Route component={NotFound} />
     </Switch>
   </Router>

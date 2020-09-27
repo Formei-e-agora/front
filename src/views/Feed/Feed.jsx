@@ -1,8 +1,11 @@
 import React from 'react';
+import { Layout } from '../../components/index';
 
-const Feed = () => {
+const Feed = (props) => {
     return (
-        <p>Feed</p>
+        <Layout currentLocation={props.history.location.pathname}>
+            <p>Feed</p>
+        </Layout>
     );
 }
 
