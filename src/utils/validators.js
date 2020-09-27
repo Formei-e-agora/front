@@ -1,3 +1,6 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable no-useless-escape */
+
 export const validateCpf = () => ({
     validator(rule, value) {
         if (value && value !== "") {
