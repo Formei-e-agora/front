@@ -1,15 +1,23 @@
 import React from 'react';
-import { Card } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { Card, Typography } from 'antd';
+import { FormOutlined } from '@ant-design/icons';
+import './PublishBox.css';
 
 const PublishBox = () => {
     return (
         <Card
-            actions={[
-                <span><EditOutlined key="setting" style={{ marginRight: 8 }} />Publicar</span>,
-            ]}
+            // actions={[
+
+            // ]}
         >
-            <Card.Meta title={<h3>Começar uma publicação</h3>} />
+            <Card.Meta
+                title={
+                    <Typography.Title level={5} className="publish-box-btn">
+                        <FormOutlined style={{ marginRight: 8 }} />
+                        Começar uma publicação
+                    </Typography.Title>
+                }
+            />
         </Card>
     );
 }

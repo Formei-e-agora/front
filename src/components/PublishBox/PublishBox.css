@@ -1,0 +1,14 @@
+.publish-box-btn {
+    cursor: pointer;
+    color: rgba(0,0,0,.6)!important;
+    padding: 12px 8px;
+    margin-bottom: 0!important;
+}
+
+.publish-box-btn:hover {
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: 167ms;
+    transition-property: background-color,box-shadow,color;
+    background-color: hsla(0,0%,81.2%,.25);
+    color: rgba(0,0,0,.75)!important;
+}
