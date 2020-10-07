@@ -19,7 +19,7 @@ export const Login = (props) => {
         setLoading(true);
         const loginResponse = await props.login(values);
         if (!loginResponse)
-            setTimeout(() => props.history.push('/feed'), 2000);
+            props.history.push('/feed');
         else
             notification.error({
                 message: 'Erro',
