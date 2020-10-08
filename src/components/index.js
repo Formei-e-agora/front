@@ -5,6 +5,8 @@ import Layout from './Layout/Layout';
 import UserCard from './UserCard/UserCard';
 import JobFeed from './JobFeed/JobFeed';
 import PublishBox from './PublishBox/PublishBox';
+import ChangePasswordForm from './Forms/ChangePasswordForm';
+import ProfileForm from './Forms/ProfileForm';
 
 export {
     PrivateRoute,
@@ -13,5 +15,7 @@ export {
     Layout,
     UserCard,
     PublishBox,
-    JobFeed
+    JobFeed,
+    ChangePasswordForm,
+    ProfileForm
 }

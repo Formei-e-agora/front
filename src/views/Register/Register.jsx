@@ -5,6 +5,7 @@ import { GithubOutlined } from '@ant-design/icons';
 import { cpfMask, phoneMask } from '../../utils/masks';
 import { validateCpf, validatePassword, validateEmailConfirm, validatePasswordConfirm } from '../../utils/validators';
 import { courses, departments } from '../../helpers';
+import { createPerson } from '../../services/person';
 
 const { Title } = Typography;
 
@@ -16,12 +17,34 @@ export const Register = (props) => {
 
     const onFinish = async (values) => {
         setLoading(true);
-        if (true) {
+
+        const payload = {
+            personalId: values.personalId,
+            name: values.name,
+            lastName: values.lastName,
+            phone: values.phone,
+            email: values.email,
+            username: values.username,
+            password: values.password,
+            userType: userType,
+            eligibleEmail: true,
+            eligiblePush: false
+        }
+        if(userType === 1) {
+            payload['course'] = values.course;
+        } else if (userType === 2) {
+            payload['department'] = values.department;
+        }
+
+        const json = await createPerson(payload);
+
+        if (json.Status) {
             notification.success({ message: 'Cadastro realizado!', description: 'Assim que o Administrador aprovar sua solicitação você poderá fazer login na plataforma.', duration: null });
-            setTimeout(() => props.history.push('/login'), 2000);
+            props.history.push('/login');
         } else {
             notification.error({ message: 'Erro', description: 'Não foi possível realizar esta operação, tente novamente mais tarde.' });
         }
+
         setLoading(false);
     };
 
@@ -48,14 +71,14 @@ export const Register = (props) => {
                     <Col>
                         <Form.Item name="userType" rules={[{ required: true, message: 'Selecione um tipo' }]}>
                             <Radio.Group onChange={onUserTypeChange} size="large" buttonStyle="solid">
-                                <Radio.Button value="student">Aluno</Radio.Button>
-                                <Radio.Button value="professor">Professor</Radio.Button>
+                                <Radio.Button value={1}>Aluno</Radio.Button>
+                                <Radio.Button value={2}>Professor</Radio.Button>
                             </Radio.Group>
                         </Form.Item>
                     </Col>
                 </Row>
 
-                {(userType === 'student') &&
+                {(userType === 1) &&
                     <Row justify="center" align="middle">
                         <Col span={20}>
                             <Form.Item name="course" rules={[{ required: true, message: 'Selecione um curso' }]}>
@@ -69,7 +92,7 @@ export const Register = (props) => {
                     </Row>
                 }
 
-                {(userType === 'professor') &&
+                {(userType === 2) &&
                     <Row justify="center" align="middle">
                         <Col span={20}>
                             <Form.Item name="department" rules={[{ required: true, message: 'Selecione um instituto' }]}>
