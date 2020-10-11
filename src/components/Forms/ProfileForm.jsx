@@ -73,13 +73,13 @@ const ProfileForm = () => {
             onFinish={onFinish}
             hideRequiredMark
         >
-            {(userData.userType === 1) &&
+            {(userData.userType === 2) &&
                 <Row justify="center" align="middle">
                     <Col span={20}>
                         <Form.Item name="course" rules={[{ required: true, message: 'Selecione um curso' }]}>
                             <Select placeholder="Curso" size="large">
                                 {
-                                    courses.map((course) => <Select.Option value={course}>{course}</Select.Option>)
+                                    courses.map((course) => <Select.Option value={(courses.indexOf(course)).toString()}>{course}</Select.Option>)
                                 }
                             </Select>
                         </Form.Item>
@@ -87,13 +87,13 @@ const ProfileForm = () => {
                 </Row>
             }
 
-            {(userData.userType === 2) &&
+            {(userData.userType === 1) &&
                 <Row justify="center" align="middle">
                     <Col span={20}>
                         <Form.Item name="department" rules={[{ required: true, message: 'Selecione um instituto' }]}>
                             <Select placeholder="Instituto" size="large">
                                 {
-                                    departments.map((dpt) => <Select.Option value={dpt}>{dpt}</Select.Option>)
+                                    departments.map((dpt) => <Select.Option value={(departments.indexOf(dpt)).toString()}>{dpt}</Select.Option>)
                                 }
                             </Select>
                         </Form.Item>

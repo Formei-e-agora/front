@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Row, Col, Card, Space, List, Divider, Badge } from 'antd';
 import { Layout, UserCard, JobFeed, PublishBox } from '../../components/index';
+import { getUserData, getPersonData, getAddressData } from '../../actions/apiActions';
 
 const data = [
     {
@@ -18,6 +20,14 @@ const data = [
 ];
 
 const Feed = (props) => {
+
+    useEffect(() => {
+        const id = JSON.parse(sessionStorage.getItem("userData")).userId;
+        props.getUserData(id);
+        props.getPersonData(id);
+        props.getAddressData(id);
+    }, []);
+
     return (
         <Layout currentLocation={props.history.location.pathname}>
             <Row justify="center" gutter={16}>
@@ -52,4 +62,4 @@ const Feed = (props) => {
     );
 }
 
-export default Feed;
+export default connect(null, { getUserData, getPersonData, getAddressData })(Feed);

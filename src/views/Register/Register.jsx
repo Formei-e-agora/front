@@ -31,9 +31,10 @@ export const Register = (props) => {
             eligiblePush: false
         }
         if(userType === 1) {
-            payload['course'] = values.course;
-        } else if (userType === 2) {
             payload['department'] = values.department;
+        } else if (userType === 2) {
+            payload['course'] = values.course;
+            payload['isEligible'] = true;
         }
 
         const json = await createPerson(payload);
@@ -71,8 +72,8 @@ export const Register = (props) => {
                     <Col>
                         <Form.Item name="userType" rules={[{ required: true, message: 'Selecione um tipo' }]}>
                             <Radio.Group onChange={onUserTypeChange} size="large" buttonStyle="solid">
-                                <Radio.Button value={1}>Aluno</Radio.Button>
-                                <Radio.Button value={2}>Professor</Radio.Button>
+                                <Radio.Button value={1}>Professor</Radio.Button>
+                                <Radio.Button value={2}>Aluno</Radio.Button>
                             </Radio.Group>
                         </Form.Item>
                     </Col>
@@ -81,10 +82,10 @@ export const Register = (props) => {
                 {(userType === 1) &&
                     <Row justify="center" align="middle">
                         <Col span={20}>
-                            <Form.Item name="course" rules={[{ required: true, message: 'Selecione um curso' }]}>
-                                <Select placeholder="Curso" size="large">
+                            <Form.Item name="department" rules={[{ required: true, message: 'Selecione um instituto' }]}>
+                                <Select placeholder="Instituto" size="large">
                                     {
-                                        courses.map((course) => <Select.Option value={course}>{course}</Select.Option>)
+                                        departments.map((dpt) => <Select.Option value={(departments.indexOf(dpt)).toString()}>{dpt}</Select.Option>)
                                     }
                                 </Select>
                             </Form.Item>
@@ -95,10 +96,10 @@ export const Register = (props) => {
                 {(userType === 2) &&
                     <Row justify="center" align="middle">
                         <Col span={20}>
-                            <Form.Item name="department" rules={[{ required: true, message: 'Selecione um instituto' }]}>
-                                <Select placeholder="Instituto" size="large">
+                            <Form.Item name="course" rules={[{ required: true, message: 'Selecione um curso' }]}>
+                                <Select placeholder="Curso" size="large">
                                     {
-                                        departments.map((dpt) => <Select.Option value={dpt}>{dpt}</Select.Option>)
+                                        courses.map((course) => <Select.Option value={(courses.indexOf(course)).toString()}>{course}</Select.Option>)
                                     }
                                 </Select>
                             </Form.Item>
