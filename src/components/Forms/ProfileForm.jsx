@@ -5,7 +5,7 @@ import { updatePerson, findPerson } from '../../services/person';
 import { courses, departments } from '../../helpers';
 import { cpfMask, phoneMask } from '../../utils/masks';
 
-const ProfileForm = () => {
+const ProfileForm = (props) => {
 
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const ProfileForm = () => {
                 message: 'Dados atualizados!',
                 description: 'Suas informações foram atualizadas com sucesso!'
             });
-            form.resetFields();
+            props.refresh(userData.userId);
         } else {
             notification.error({
                 message: 'Erro ao atualizar dados',

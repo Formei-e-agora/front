@@ -21,8 +21,10 @@ const data = [
 
 const Feed = (props) => {
 
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    const id = userData.userId;
+
     useEffect(() => {
-        const id = JSON.parse(sessionStorage.getItem("userData")).userId;
         props.getUserData(id);
         props.getPersonData(id);
         props.getAddressData(id);
@@ -35,10 +37,8 @@ const Feed = (props) => {
                     <UserCard />
                 </Col>
                 <Col xxl={8} xl={10}>
-                    <Space direction="vertical" style={{ width: '100%' }}>
-                        <PublishBox />
+                        { userData.userType === 1 && <PublishBox style={{ marginBottom: '1em' }} /> }
                         <JobFeed />
-                    </Space>
                 </Col>
                 <Col xxl={4} xl={6}>
                     <Card title={<h4 style={{ margin: 0 }}>Ofertas mais visualizadas</h4>} headStyle={{ border: 0 }} bodyStyle={{ padding: '0px 24px' }}>

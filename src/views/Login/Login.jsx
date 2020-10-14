@@ -22,8 +22,8 @@ export const Login = (props) => {
             props.history.push('/feed');
         else
             notification.error({
-                message: 'Erro',
-                description: 'Não foi possível autenticar com as credenciais providenciadas'
+                message: 'Acesso não autorizado',
+                description: 'Certifique-se que as credenciais estão corretas e a sua conta foi desbloqueada pelo administrador'
             });
         setLoading(false);
     };

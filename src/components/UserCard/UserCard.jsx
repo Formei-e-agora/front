@@ -9,7 +9,7 @@ const textOverflowStyle = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    width: '20em'
+    maxWidth: '20em'
 }
 
 const TextSnippet = (props) => {
@@ -91,7 +91,7 @@ const UserCard = (props) => {
                             {
                                 (!props.api.address)
                                     ? null
-                                    : (props.api.loading.address) ?
+                                    : (!props.api.loading.address) ?
                                         <Space direction="vertical" size={4} style={{ width: '100%' }}>
                                             <h5>Endereço</h5>
                                             <TextSnippet title="Rua" description={props.api.address.address} />

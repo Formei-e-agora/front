@@ -12,7 +12,7 @@ import {
 
 import { findUser } from '../services/auth';
 import { findPerson } from '../services/person';
-import { findAddress } from '../services/address';
+import { findAddressByPersonId } from '../services/address';
 
 export const apiUserDataRequest = () => ({
     type: API_USER_DATA_REQUEST
@@ -75,9 +75,9 @@ export const getPersonData = id => async dispatch => {
 
 export const getAddressData = id => async dispatch => {
     dispatch(apiAddressDataRequest());
-    const json = await findAddress(id);
+    const json = await findAddressByPersonId(id);
     if (json.Status) {
-        dispatch(apiAddressDataSuccess(json.userData));
+        dispatch(apiAddressDataSuccess(json.addressData));
     } else {
         dispatch(apiAddressDataFailed());
     }

@@ -7,6 +7,12 @@ export async function findAddress(addressId) {
     });
 }
 
+export async function findAddressByPersonId(personId) {
+    return request(baseURL + port + '/person/address/find/personId/'+personId, {
+        method: 'GET'
+    });
+}
+
 export async function verifyAddress(addressId) {
     return request(baseURL + port + '/person/address/verify/addressId/'+addressId, {
         method: 'GET'

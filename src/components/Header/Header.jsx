@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Layout, Menu, Row, Col } from 'antd';
-import { HomeFilled, BellFilled, ToolFilled, ShoppingFilled, WalletFilled } from '@ant-design/icons';
+import { HomeFilled, BellFilled, ToolFilled, ShoppingFilled, WalletFilled, ContactsFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 
 const Header = (props) => {
@@ -22,6 +23,11 @@ const Header = (props) => {
                         <Menu.Item key="/jobs" icon={<ShoppingFilled />}>
                             <Link to='/jobs'>Vagas</Link>
                         </Menu.Item>
+                        { (props.personData && props.personData.isAdmin) &&
+                            <Menu.Item key="/usermanager" icon={<ContactsFilled />}>
+                                <Link to='/usermanager'>Usuários</Link>
+                            </Menu.Item>
+                        }
                         <Menu.Item key="/notifications" icon={<BellFilled />}>
                             <Link to='/notifications'>Notificações</Link>
                         </Menu.Item>
@@ -40,4 +46,6 @@ const Header = (props) => {
     );
 }
 
-export default Header;
+const mapStateToProps = state => ({ personData: state.api.person });
+
+export default connect(mapStateToProps)(Header);

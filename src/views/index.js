@@ -5,6 +5,7 @@ import Jobs from './Jobs/Jobs';
 import Settings from './Settings/Settings';
 import Notifications from './Notifications/Notifications';
 import Register from './Register/Register';
+import UserManager from './UserManager/UserManager';
 import NotFound from './NotFound/NotFound';
 
 
@@ -16,5 +17,6 @@ export {
     Register,
     NotFound,
     Settings,
-    Notifications
+    Notifications,
+    UserManager
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, Tabs } from 'antd';
-import { Layout, UserCard, ChangePasswordForm, ProfileForm } from '../../components/index';
+import { Layout, UserCard, ChangePasswordForm, ProfileForm, AddressForm } from '../../components/index';
 import { getUserData, getPersonData, getAddressData } from '../../actions/apiActions';
 
 const { TabPane } = Tabs;
@@ -15,6 +15,10 @@ const Settings = (props) => {
         props.getAddressData(id);
     }, []);
 
+    const updateStore = (id) => {
+        props.getAddressData(id);
+    }
+
     return (
         <Layout currentLocation={props.history.location.pathname}>
             <Row justify="center" gutter={16}>
@@ -25,10 +29,10 @@ const Settings = (props) => {
                     <Card>
                         <Tabs defaultActiveKey="1">
                             <TabPane tab="Perfil" key="1">
-                                <ProfileForm />
+                                <ProfileForm refresh={updateStore} />
                             </TabPane>
                             <TabPane tab="Endereço" key="2">
-                                Form para alterar dados do seu endereço
+                                <AddressForm refresh={updateStore} />
                             </TabPane>
                             <TabPane tab="Senha" key="3">
                                 <ChangePasswordForm />

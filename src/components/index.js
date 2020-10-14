@@ -7,6 +7,8 @@ import JobFeed from './JobFeed/JobFeed';
 import PublishBox from './PublishBox/PublishBox';
 import ChangePasswordForm from './Forms/ChangePasswordForm';
 import ProfileForm from './Forms/ProfileForm';
+import AddressForm from './Forms/AddressForm';
+import JobForm from './Forms/JobForm';
 
 export {
     PrivateRoute,
@@ -17,5 +19,7 @@ export {
     PublishBox,
     JobFeed,
     ChangePasswordForm,
-    ProfileForm
+    ProfileForm,
+    AddressForm,
+    JobForm
 }
