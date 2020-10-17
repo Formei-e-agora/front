@@ -35,7 +35,7 @@ const UserCard = (props) => {
             <Card.Meta
                 title={(props.api.loading.person || !props.api.person)
                     ? <Skeleton.Input style={{ width: '20em' }} active size="small" />
-                    : <h3 style={{ textAlign: 'center', marginBottom: 0 }}>{`${props.api.person.name} ${props.api.person.lastName}`}</h3>}
+                    : <h3 style={{ textAlign: 'center', marginBottom: 0, ...textOverflowStyle }}>{`${props.api.person.name} ${props.api.person.lastName}`}</h3>}
                 description={
                     <>
                         {

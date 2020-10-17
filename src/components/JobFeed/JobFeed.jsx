@@ -1,51 +1,61 @@
 import React from 'react';
-import { List, Card } from 'antd';
-import { LikeOutlined, CommentOutlined, SendOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { List, Card, Typography, Badge, Space, Tag } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons';
 
-const data = [
-    {
-        title: 'Professor Fulano postou nova vaga',
-    },
-    {
-        title: 'Aluno X entrou na plataforma',
-    },
-    {
-        title: 'Nova vaga postada!',
-    },
-    {
-        title: 'Professor XX postou uma nova vaga',
-    },
-];
+const { Title, Paragraph } = Typography;
 
-const JobFeed = () => {
-    return (
-        <List
-            grid={{ column: 1 }}
-            dataSource={data}
-            renderItem={item => (
-                <List.Item>
-                    <Card
-                        title={item.title}
-                        actions={[
-                            <span><LikeOutlined style={{ marginRight: 8 }} />Gostei</span>,
-                            <span><CommentOutlined style={{ marginRight: 8 }} />Comentar</span>,
-                            <span><SendOutlined style={{ marginRight: 8 }} />Compartilhar</span>,
-                            <span><ShareAltOutlined style={{ marginRight: 8 }} />Enviar</span>
-                        ]}
-                    >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse rhoncus diam id interdum blandit.
-                        Vivamus in nulla vel lacus volutpat ullamcorper.
-                        Nam eget magna eu arcu rutrum eleifend vitae non ante. Mauris semper a velit ac dapibus.
-                        Integer sit amet ante purus. Proin dui mauris, commodo id erat sed, commodo varius felis.
-                        Vivamus vestibulum ac leo nec semper. Nam porttitor a velit vel vehicula.
-                        Morbi dictum magna finibus mi porta vestibulum. Mauris id tortor risus. Fusce malesuada ut elit sit amet posuere.
-                        Mauris vitae quam vehicula, vehicula libero ac, interdum ligula. Praesent vestibulum erat eu felis dictum euismod. Sed in congue urna.
+const JobFeed = (props) => {
+
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    const id = userData.userId;
+
+    const getActions = (userType, item) => {
+        if(userType === 1) {
+            return [
+                <Space size="middle"><Badge count={item.subscription.length} style={{ position: 'relative', top: '-2px' }} />Interessados</Space>,
+                <span><EllipsisOutlined style={{ marginRight: 8 }} />Mais Informações</span>
+            ];
+        } else {
+            return [
+
+            ];
+        }
+    }
+
+    if (props.data)
+        return (
+            <List
+                grid={{ column: 1 }}
+                dataSource={props.data}
+                renderItem={item => (
+                    <List.Item>
+                        <Card
+                            headStyle={{ border: 0 }}
+                            actions={getActions(id, item)}
+                        >
+                            <Typography>
+                                <Title level={4}>{item.title}</Title>
+                                <Title level={5}>{item.company} - {item.workplace}</Title>
+                                <Paragraph>
+                                    {item.isActive ?  <Tag color="red">Oferta Ativa</Tag> :  <Tag>Indisponível</Tag>}
+                                    {item.isRemote && <Tag color="purple">Aceita remoto</Tag>}
+                                </Paragraph>
+                                <Paragraph>
+                                    <Title level={5}>Descrição</Title>
+                                    {item.description}
+                                </Paragraph>
+                                <Paragraph>
+                                    {item.position} / {item.experience}
+                                </Paragraph>
+                                <Paragraph>vaga ofertada a alunos de X courses</Paragraph>
+                            </Typography>
                     </Card>
-                </List.Item>
-            )}
-        />
-    );
+                    </List.Item>
+                )}
+            />
+        );
+    else
+        return null
 }
 
 export default JobFeed;

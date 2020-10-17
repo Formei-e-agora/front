@@ -40,13 +40,13 @@ export async function deleteJob(jobId) {
 }
 
 export async function findJobByCourse(course) {
-    return request(baseURL + port + '/job/find/course/'+course+'/number/10', {
+    return request(baseURL + port + '/job/find/course/'+course+'/number/5', {
         method: 'GET'
     });
 }
 
 export async function findJobByProfessorId(professorId) {
-    return request(baseURL + port + '/job/find/professorId/'+professorId+'/number/10', {
+    return request(baseURL + port + '/job/find/professorId/'+professorId+'/number/5', {
         method: 'GET'
     });
 }
