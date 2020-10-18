@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col, Form, Input, notification, Button, Select } from 'antd';
-import { validatePassword, validatePasswordConfirm, validateCpf, validateEmailConfirm } from '../../utils/validators';
-import { updatePerson, findPerson } from '../../services/person';
-import { courses, departments } from '../../helpers';
-import { cpfMask, phoneMask } from '../../utils/masks';
+import React, { useState } from 'react';
+import { Row, Col, Form, Input, Select, Button, Checkbox, DatePicker, notification } from 'antd';
+import { TagOutlined, BankOutlined, ScheduleOutlined, TrophyOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { createJob } from '../../services/job';
 
-const JobForm = () => {
+const JobForm = (props) => {
 
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
@@ -15,27 +13,17 @@ const JobForm = () => {
     const onFinish = async (values) => {
         setLoading(true);
 
-        const payload = {
-            personalId: values.personalId,
-            name: values.name,
-            lastName: values.lastName,
-            phone: values.phone,
-            email: values.email,
-            course: values.course,
-            department: values.department
-        }
-
-        const json = await updatePerson(userData.userId, payload);
+        const json = await createJob({ ...values, isRemote: !!(values.isRemote), professorId: userData.userId, isActive: true });
 
         if (json.Status) {
             notification.success({
-                message: 'Dados atualizados!',
-                description: 'Suas informações foram atualizadas com sucesso!'
+                message: 'Vaga cadastrada!',
+                description: 'Para finalizar adicione os cursos para o qual esta vaga é ofertada!'
             });
-            form.resetFields();
+            props.next(json.jobData.jobId);
         } else {
             notification.error({
-                message: 'Erro ao atualizar dados',
+                message: 'Erro ao cadastrar vaga',
                 description: 'Certifique que tudo está correto e tente novamente.'
             });
         }
@@ -57,7 +45,7 @@ const JobForm = () => {
                         name="title"
                         rules={[{ required: true, message: 'Digite o título' }]}
                     >
-                        <Input size="large" placeholder="Título" />
+                        <Input size="large" placeholder="Título da vaga" prefix={<TagOutlined style={{ marginRight: 8 }} />} />
                     </Form.Item>
                 </Col>
             </Row>
@@ -68,7 +56,7 @@ const JobForm = () => {
                         name="company"
                         rules={[{ required: true, message: 'Digite a empresa' }]}
                     >
-                        <Input size="large" placeholder="Empresa" />
+                        <Input size="large" placeholder="Empresa" prefix={<BankOutlined style={{ marginRight: 8 }} />} />
                     </Form.Item>
                 </Col>
                 <Col span={10}>
@@ -76,7 +64,7 @@ const JobForm = () => {
                         name="position"
                         rules={[{ required: true, message: 'Digite o cargo' }]}
                     >
-                        <Input size="large" placeholder="Cargo" />
+                        <Input size="large" placeholder="Cargo" prefix={<ScheduleOutlined style={{ marginRight: 8 }} />} />
                     </Form.Item>
                 </Col>
             </Row>
@@ -85,9 +73,10 @@ const JobForm = () => {
                 <Col span={20}>
                     <Form.Item
                         name="description"
+                        label={<h3>Fale um pouco sobre a vaga</h3>}
                         rules={[{ required: true, message: 'Digite a descrição' }]}
                     >
-                        <Input size="large" placeholder="Descrição" />
+                        <Input.TextArea rows={6} placeholder="Descrição da vaga, sobre a empresa, requisitos, benefícios..." />
                     </Form.Item>
                 </Col>
             </Row>
@@ -98,7 +87,14 @@ const JobForm = () => {
                         name="experience"
                         rules={[{ required: true, message: 'Digite a experiência' }]}
                     >
-                        <Input size="large" placeholder="Experiência" />
+                        <Select size="large" placeholder={<><TrophyOutlined style={{ marginRight: 8, color: '#000000' }} />Nível de experiência</>}>
+                            <Select.Option value="Estágio">Estágio</Select.Option>
+                            <Select.Option value="Assistente">Assistente</Select.Option>
+                            <Select.Option value="Júnior">Júnior</Select.Option>
+                            <Select.Option value="Pleno-sênior">Pleno-sênior</Select.Option>
+                            <Select.Option value="Diretor">Diretor</Select.Option>
+                            <Select.Option value="Executivo">Executivo</Select.Option>
+                        </Select>
                     </Form.Item>
                 </Col>
                 <Col span={10}>
@@ -106,7 +102,7 @@ const JobForm = () => {
                         name="workplace"
                         rules={[{ required: true, message: 'Digite o local de trabalho' }]}
                     >
-                        <Input size="large" placeholder="Local de Trabalho" />
+                        <Input size="large" placeholder="Local de Trabalho" prefix={<EnvironmentOutlined style={{ marginRight: 8 }} />} />
                     </Form.Item>
                 </Col>
             </Row>
@@ -117,7 +113,7 @@ const JobForm = () => {
                         name="creationDate"
                         rules={[{ required: true, message: 'Digite a data de início' }]}
                     >
-                        <Input size="large" placeholder="Data de início" />
+                        <DatePicker size="large" placeholder="Data de início da oferta" style={{ width: '100%' }} format="DD/MM/YYYY" />
                     </Form.Item>
                 </Col>
                 <Col span={10}>
@@ -125,26 +121,25 @@ const JobForm = () => {
                         name="closeDate"
                         rules={[{ required: true, message: 'Digite a data final' }]}
                     >
-                        <Input size="large" placeholder="Data final" />
+                        <DatePicker size="large" placeholder="Data de término da oferta" style={{ width: '100%' }} format="DD/MM/YYYY" />
                     </Form.Item>
                 </Col>
             </Row>
 
-            <Row justify="center" align="middle" gutter={16}>
-                <Col span={10}>
-                    <Form.Item
-                        name="isRemote"
-                        rules={[{ required: true, message: 'Digite a data de início' }]}
-                    >
-                        <Input size="large" placeholder="isRemote" />
+            <Row justify="start" align="middle" gutter={16}>
+                <Col span={10} offset={2}>
+                    <Form.Item name="isRemote" valuePropName="checked">
+                        <Checkbox checked={false}>Aceita trabalho remoto</Checkbox>
                     </Form.Item>
                 </Col>
-                <Col span={10}>
-                    <Form.Item
-                        name="isActive"
-                        rules={[{ required: true, message: 'Digite a data final' }]}
-                    >
-                        <Input size="large" placeholder="isActive" />
+            </Row>
+
+            <Row justify="center" align="middle">
+                <Col span={20}>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" loading={loading} size="large">
+                            Cadastrar vaga
+                        </Button>
                     </Form.Item>
                 </Col>
             </Row>

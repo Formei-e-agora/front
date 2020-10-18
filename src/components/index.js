@@ -9,6 +9,7 @@ import ChangePasswordForm from './Forms/ChangePasswordForm';
 import ProfileForm from './Forms/ProfileForm';
 import AddressForm from './Forms/AddressForm';
 import JobForm from './Forms/JobForm';
+import CourseRequirementsForm from './Forms/CourseRequirementsForm';
 
 export {
     PrivateRoute,
@@ -21,5 +22,6 @@ export {
     ChangePasswordForm,
     ProfileForm,
     AddressForm,
-    JobForm
+    JobForm,
+    CourseRequirementsForm
 }
