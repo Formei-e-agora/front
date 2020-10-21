@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Card, Typography, Modal, Button, Row, Col, Space, Result } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 import { JobForm, CourseRequirementsForm } from '../index';
+import { getJobFeedData } from '../../actions';
 import Confirmation from '../../images/confirmation.svg';
 import JobHunt from '../../images/job_hunt.svg';
 import './PublishBox.css';
@@ -13,9 +15,10 @@ class PublishBox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: true,
+            userData: JSON.parse(sessionStorage.getItem("userData")),
+            visible: false,
             loading: false,
-            current: 2,
+            current: 0,
             jobId: null
         }
     }
@@ -38,6 +41,9 @@ class PublishBox extends React.Component {
         } else {
             this.setState({ current: this.state.current + 1 });
         }
+        (this.state.userData.userType === 1)
+            ? this.props.getJobFeedData({ professorId: this.state.userData.userId })
+            : this.props.getJobFeedData({ course: this.state.userData.course })
     };
 
     goToCourseRequirements = (jobId) => {
@@ -51,21 +57,25 @@ class PublishBox extends React.Component {
                     <Row justify="space-between">
                         <Col span={16}>
                             <Typography>
-                            <Paragraph>
-                                    Este espaço é dedicado à publicacao de novas ofertas que podem ser visualizadas a todos os alunos cadastrados no sistema, tempo médio para publicar uma nova vaga: 15 minutos
+                                <Title level={5}>
+                                    Deseja publicar uma nova vaga que pode ser visualizada a todos os alunos cadastrados no sistema?
+                                </Title>
+                                <Paragraph>
+                                    Tenha em mãos os dados da vaga e siga os passos até o final para garantir que a vaga de emprego esteja disponível a todos os estudantes interessados!
                                 </Paragraph>
                                 <Paragraph>
-                                    Tenha em mãos os dados da vaga e siga todos os passos até o final para garantir que a vaga de emprego esteja disponível a todos os estudantes!
+                                    Nosso sistema contempla as seguintes funcionalidades:
                                 </Paragraph>
                                 <Paragraph>
-                                    Funcionalidades:
-                                    Promoção de vagas segmentadas: a vaga fica disponível apenas aos alunos dos cursos selecionados, com competencias certas etc.
-                                    Resultados recomendados: Como professor você pode recomendar determinada vaga para o determinado alunos
+                                    <b>Promoção de vagas segmentadas:</b> a vaga fica disponível apenas aos alunos dos cursos selecionados.
+                                </Paragraph>
+                                <Paragraph>
+                                    <b>Resultados recomendados:</b> Como professor você pode recomendar qualquer aluno que demonstrou interesse na vaga!
                                 </Paragraph>
                             </Typography>
                         </Col>
                         <Col span={8}>
-                            <img src={JobHunt} alt="" style={{ width: '50%', textAlign: 'center' }} />
+                            <img src={JobHunt} alt="" style={{ width: '50%', display: 'block', margin: '0 auto' }} />
                         </Col>
                     </Row>
                 );
@@ -79,7 +89,7 @@ class PublishBox extends React.Component {
                 );
             case 3:
                 return (
-                    <Result 
+                    <Result
                         title="Sucesso!"
                         subTitle="Sua publicação já pode ser vista pelos alunos!"
                         icon={<img src={Confirmation} alt="" style={{ width: '50%' }} />}
@@ -109,6 +119,7 @@ class PublishBox extends React.Component {
                 return (
                     <Space>
                         <Button onClick={this.handleCancel}>Cancelar</Button>
+                        <Button type="primary" onClick={this.next}>Finalizar</Button>
                     </Space>
                 );
             case 3:
@@ -149,4 +160,4 @@ class PublishBox extends React.Component {
     }
 }
 
-export default PublishBox;
+export default connect(null, { getJobFeedData })(PublishBox);

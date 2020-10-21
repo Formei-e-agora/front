@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, List, Divider, Badge } from 'antd';
 import { Layout, UserCard, JobFeed, PublishBox } from '../../components/index';
-import { getUserData, getPersonData, getAddressData } from '../../actions/apiActions';
+import { getUserData, getPersonData, getAddressData, getJobFeedData } from '../../actions';
 import { findJobByProfessorId, findMostPopularJobs } from '../../services/job';
 import moment from 'moment';
 
@@ -13,7 +13,6 @@ class Feed extends React.Component {
         this.state = {
             userData: JSON.parse(sessionStorage.getItem("userData")),
             loading: false,
-            jobData: null,
             popularData: null
         }
     }
@@ -23,23 +22,12 @@ class Feed extends React.Component {
         this.props.getUserData(id);
         this.props.getPersonData(id);
         this.props.getAddressData(id);
-        this.getJobData();
+
+        (this.state.userData.userType === 1)
+            ?   this.props.getJobFeedData({ professorId: this.state.userData.userId })
+            :   this.props.getJobFeedData({ course: this.state.userData.course })
+
         this.getMostPopularData();
-    }
-
-    getJobData = async () => {
-        this.setState({ loading: true });
-
-        const json = (this.state.userData.userType === 1)
-            ? await findJobByProfessorId(this.state.userData.userId)
-            : { Status: false };
-
-        if (json.Status) {
-            this.setState({ jobData: json.jobs });
-        } else {
-            console.log(json);
-        }
-        this.setState({ loading: false });
     }
 
     getMostPopularData = async () => {
@@ -61,7 +49,7 @@ class Feed extends React.Component {
                     </Col>
                     <Col xxl={8} xl={10}>
                         {this.state.userData.userType === 1 && <PublishBox style={{ marginBottom: '1em' }} />}
-                        <JobFeed data={this.state.jobData} loading={this.state.loading} />
+                        <JobFeed data={this.props.feed} loading={this.props.loadingFeed} />
                     </Col>
                     <Col xxl={4} xl={6}>
                         <Card title={<h4 style={{ margin: 0 }}>Ofertas mais visualizadas</h4>} headStyle={{ border: 0 }} bodyStyle={{ padding: '0px 24px' }}>
@@ -88,4 +76,9 @@ class Feed extends React.Component {
     }
 }
 
-export default connect(null, { getUserData, getPersonData, getAddressData })(Feed);
+const mapStateToProps = state => ({
+    feed: state.job.feed,
+    loadingFeed: state.job.loading.feed
+});
+
+export default connect(mapStateToProps, { getUserData, getPersonData, getAddressData, getJobFeedData })(Feed);

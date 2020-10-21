@@ -76,7 +76,11 @@ const JobForm = (props) => {
                         label={<h3>Fale um pouco sobre a vaga</h3>}
                         rules={[{ required: true, message: 'Digite a descrição' }]}
                     >
-                        <Input.TextArea rows={6} placeholder="Descrição da vaga, sobre a empresa, requisitos, benefícios..." />
+                        <Input.TextArea 
+                            rows={6} 
+                            placeholder="Descrição da vaga, sobre a empresa, requisitos, benefícios..." 
+                            maxLength={800}
+                        />
                     </Form.Item>
                 </Col>
             </Row>
