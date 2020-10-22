@@ -16,6 +16,7 @@ const Settings = (props) => {
     }, []);
 
     const updateStore = (id) => {
+        props.getPersonData(id);
         props.getAddressData(id);
     }
 

@@ -33,6 +33,8 @@ const ProfileForm = (props) => {
                 description: 'Suas informações foram atualizadas com sucesso!'
             });
             props.refresh(userData.userId);
+            const data = JSON.parse(sessionStorage.getItem('userData'))
+            sessionStorage.setItem('userData', JSON.stringify({...data, course: values.course, department: values.department}))
         } else {
             notification.error({
                 message: 'Erro ao atualizar dados',
@@ -170,25 +172,6 @@ const ProfileForm = (props) => {
                             maxLength={15}
                             onChange={(e) => form.setFieldsValue({ phone: phoneMask(e.target.value) })}
                         />
-                    </Form.Item>
-                </Col>
-            </Row>
-
-            <Row justify="center" align="middle" gutter={8}>
-                <Col span={10}>
-                    <Form.Item
-                        name="password"
-                        rules={[{ required: true, message: 'Digite a senha' }, validatePassword]}
-                    >
-                        <Input.Password size="large" placeholder="Senha" />
-                    </Form.Item>
-                </Col>
-                <Col span={10}>
-                    <Form.Item
-                        name="confirmPassword"
-                        rules={[{ required: true, message: ' ' }, validatePasswordConfirm]}
-                    >
-                        <Input.Password size="large" placeholder="Confirmar Senha" />
                     </Form.Item>
                 </Col>
             </Row>

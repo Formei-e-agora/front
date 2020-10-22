@@ -3,7 +3,7 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import Layout from './Layout/Layout';
 import UserCard from './UserCard/UserCard';
-import JobFeed from './JobFeed/JobFeed';
+import FeedContent from './FeedContent/FeedContent';
 import PublishBox from './PublishBox/PublishBox';
 import ChangePasswordForm from './Forms/ChangePasswordForm';
 import ProfileForm from './Forms/ProfileForm';
@@ -18,7 +18,7 @@ export {
     Layout,
     UserCard,
     PublishBox,
-    JobFeed,
+    FeedContent,
     ChangePasswordForm,
     ProfileForm,
     AddressForm,

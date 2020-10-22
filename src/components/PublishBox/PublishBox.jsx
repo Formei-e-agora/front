@@ -29,6 +29,9 @@ class PublishBox extends React.Component {
 
     handleCancel = () => {
         this.setState({ visible: false, current: 0, jobId: null });
+        (this.state.userData.userType === 1)
+            ? this.props.getJobFeedData({ professorId: this.state.userData.userId })
+            : this.props.getJobFeedData({ course: this.state.userData.course })
     };
 
     showModal = () => {
@@ -41,9 +44,6 @@ class PublishBox extends React.Component {
         } else {
             this.setState({ current: this.state.current + 1 });
         }
-        (this.state.userData.userType === 1)
-            ? this.props.getJobFeedData({ professorId: this.state.userData.userId })
-            : this.props.getJobFeedData({ course: this.state.userData.course })
     };
 
     goToCourseRequirements = (jobId) => {

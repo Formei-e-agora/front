@@ -80,6 +80,7 @@ const JobForm = (props) => {
                             rows={6} 
                             placeholder="Descrição da vaga, sobre a empresa, requisitos, benefícios..." 
                             maxLength={800}
+                            showCount
                         />
                     </Form.Item>
                 </Col>
