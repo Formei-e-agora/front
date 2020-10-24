@@ -31,7 +31,7 @@ const TextSnippet = (props) => {
 
 const UserCard = (props) => {
     return (
-        <Card cover={<Avatar size={144} src={MaleAvatar} style={{ margin: '0 auto', padding: 16 }} />} >
+        <Card cover={<Avatar size={160} src={MaleAvatar} style={{ margin: '0 auto', padding: 16 }} />} >
             <Card.Meta
                 title={(props.api.loading.person || !props.api.person)
                     ? <Skeleton.Input style={{ width: '20em' }} active size="small" />

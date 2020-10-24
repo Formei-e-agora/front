@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, List, Result, Select, Divider, Input, Tag, Switch, Spin, Modal, message } from 'antd';
-import { Layout, RandomAvatar, JobDetails, CourseRequirementsForm, JobForm } from '../../components/index';
+import { Layout, RandomAvatar, JobDetails, CourseRequirementsForm, UpdateJobForm } from '../../components/index';
 import { SearchOutlined } from '@ant-design/icons';
 import { selectJobClear, getJobFeedData } from '../../actions';
-import { updateJob } from '../../services/job';
+import { updateJob, deleteJob } from '../../services/job';
 import moment from 'moment';
 
 const activeStyle = {
@@ -59,6 +59,17 @@ const Jobs = (props) => {
         visibleJob: false
     })
 
+    const removeJob = async (item) => {
+        console.log(item)
+        const json = await deleteJob(item.jobId);
+        if (json.Status) {
+            message.success("Vaga excluída com sucesso.");
+            getJobFeed();
+        } else {
+            message.error("Erro ao excluir vaga.");
+        }
+    }
+
     const deactivateJob = async (item) => {
         const payload = { ...item, isActive: false };
         const json = await updateJob(item.jobId, payload);
@@ -94,6 +105,10 @@ const Jobs = (props) => {
         (userData.userType === 1)
             ? props.getJobFeedData({ professorId: userData.userId })
             : props.getJobFeedData({ course: userData.course })
+        setModal({
+            visibleCourse: false,
+            visibleJob: false
+        });
     }
 
     useEffect(() => {
@@ -219,6 +234,7 @@ const Jobs = (props) => {
                                                 showJobModal={showJobModal}
                                                 activateJob={activateJob}
                                                 deactivateJob={deactivateJob}
+                                                removeJob={removeJob}
                                             />
                                             :
                                             <Result
@@ -238,8 +254,9 @@ const Jobs = (props) => {
                     width={window.innerWidth >= 1600 ? "65%" : "75%"}
                     visible={modal.visibleJob}
                     onCancel={() => setModal({ ...modal, visibleJob: false })}
+                    footer={null}
                 >
-                    <JobForm next={getJobFeed} />
+                    <UpdateJobForm refresh={getJobFeed} data={job} />
                 </Modal>
 
             }

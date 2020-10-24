@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Card, Button, Divider, Typography, Tag } from 'antd';
+import { Row, Col, Card, Button, Divider, Typography, Tag, Popconfirm } from 'antd';
 import { EnvironmentOutlined } from '@ant-design/icons';
 import { courses } from '../../helpers/courses';
 import moment from 'moment';
@@ -9,14 +9,20 @@ const { Title, Text, Paragraph } = Typography;
 const JobDetails = (props) => {
 
     const item = props.data;
+    const userType = JSON.parse(sessionStorage.getItem('userData')).userType;
 
     return (
         <Card bordered={false} style={{ boxShadow: 'none' }}>
-            <div style={{ float: 'right', marginLeft: '1em' }}>
-                <Button type="primary" style={{ marginRight: 8 }} onClick={() => props.showJobModal()}>Editar</Button>
-                {item.isActive && <Button type="danger" onClick={() => props.deactivateJob(item)}>Desativar</Button>}
-                {!item.isActive && <Button type="secondary" onClick={() => props.activateJob(item)}>Ativar</Button>}
-            </div>
+            {
+                userType === 1
+                    ? <div style={{ float: 'right', marginLeft: '1em' }}>
+                        <Button type="primary" style={{ marginRight: 8 }} onClick={() => props.showJobModal()}>Editar</Button>
+                        {item.isActive && <Button type="danger" ghost onClick={() => props.deactivateJob(item)}>Desativar</Button>}
+                        {!item.isActive && <Button type="secondary" onClick={() => props.activateJob(item)}>Ativar</Button>}
+                        <Popconfirm okText="Sim" cancelText="Não" title="Tem certeza?" onConfirm={() => props.removeJob(item)}><Button type="danger" style={{ marginLeft: 8 }}>Excluir</Button></Popconfirm>
+                    </div>
+                    : null
+            }
 
             <Typography>
                 <Title level={4} >{item.title}</Title>
@@ -65,9 +71,11 @@ const JobDetails = (props) => {
                 </Paragraph>
                 <Divider type="horizontal" />
                 <Paragraph ellipsis={{ rows: 8, expandable: true, symbol: 'ver mais' }}>
-                    <div style={{ float: 'right' }}>
-                        <Button type="primary" style={{ marginRight: 8 }} onClick={() => props.showCourseModal()}>Editar</Button>
-                    </div>
+                    {userType === 1 &&
+                        <div style={{ float: 'right' }}>
+                            <Button type="primary" style={{ marginRight: 8 }} onClick={() => props.showCourseModal()}>Editar</Button>
+                        </div>
+                    }
                     <Title level={5}>Vaga ofertada a alunos dos cursos</Title>
                     {
                         item.courseRequirement && item.courseRequirement.map((c) => <Text style={{ display: 'block' }}>{courses[c.course]}</Text>)

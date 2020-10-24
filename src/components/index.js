@@ -9,6 +9,7 @@ import ChangePasswordForm from './Forms/ChangePasswordForm';
 import ProfileForm from './Forms/ProfileForm';
 import AddressForm from './Forms/AddressForm';
 import JobForm from './Forms/JobForm';
+import UpdateJobForm from './Forms/UpdateJobForm';
 import CourseRequirementsForm from './Forms/CourseRequirementsForm';
 import RandomAvatar from './RandomAvatar/RandomAvatar';
 import JobDetails from './JobDetails/JobDetails';
@@ -27,5 +28,6 @@ export {
     JobForm,
     CourseRequirementsForm,
     RandomAvatar,
-    JobDetails
+    JobDetails,
+    UpdateJobForm
 }

@@ -28,9 +28,10 @@ class Feed extends React.Component {
 
     getJobFeed = async () => {
         (this.state.userData.userType === 1)
-        ? this.props.getJobFeedData({ professorId: this.state.userData.userId })
-        : this.props.getJobFeedData({ course: this.state.userData.course })
+            ? this.props.getJobFeedData({ professorId: this.state.userData.userId })
+            : this.props.getJobFeedData({ course: this.state.userData.course })
     }
+    
 
     getMostPopularData = async () => {
         const json = await findMostPopularJobs();
@@ -47,10 +48,15 @@ class Feed extends React.Component {
         const differenceInMilliseconds = now.diff(moment(date));
         if (differenceInMilliseconds < 3600000)
             return `há ${moment.duration(differenceInMilliseconds).minutes()} min`
-        else if(differenceInMilliseconds < 86400000)
+        else if (differenceInMilliseconds < 86400000)
             return `há ${moment.duration(differenceInMilliseconds).hours()} h`
         else
             return `há ${moment.duration(differenceInMilliseconds).days()} d`
+    }
+
+    goToJob = (jobId) => {
+        this.props.selectJob(jobId);
+        this.props.history.push('/jobs');
     }
 
     render() {
@@ -75,8 +81,18 @@ class Feed extends React.Component {
                                     renderItem={item => (
                                         <List.Item>
                                             <List.Item.Meta
-                                                title={<div><Badge status="processing" />{item.title}</div>}
-                                                description={<div>{this.getTimeDifference(item.createdAt)} <Divider type="vertical" />{item.company} {/*`${item.subscription.length} interessado${item.subscription.length > 1 ? 's' : ''}`*/}</div>}
+                                                title={<div style={{ cursor: 'pointer' }} onClick={() => this.goToJob(item.jobId)}><Badge status="processing" />{item.title}</div>}
+                                                description={
+                                                    <div>
+                                                        {this.getTimeDifference(item.createdAt)}
+                                                        <Divider type="vertical" />
+                                                        {
+                                                            item.subscription
+                                                            ? `${item.subscription.length} interessado${item.subscription.length > 1 ? 's' : ''}`
+                                                            : item.company
+                                                        }
+                                                    </div>
+                                                }
                                             />
                                         </List.Item>
                                     )}
