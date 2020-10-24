@@ -7,3 +7,11 @@
 .ant-card-body {
     padding: 16px 24px;
 }
+
+.ant-list-vertical .ant-list-item-action > li {
+    padding: 0 8px;
+}
+
+.ant-list-vertical .ant-list-item-meta-title {
+    margin-bottom: 0!important;
+}

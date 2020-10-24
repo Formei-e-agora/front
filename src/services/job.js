@@ -38,3 +38,21 @@ export async function deleteJob(jobId) {
         method: 'DELETE'
     });
 }
+
+export async function findJobByCourse(course) {
+    return request(baseURL + port + '/job/find/course/'+course+'/number/50', {
+        method: 'GET'
+    });
+}
+
+export async function findJobByProfessorId(professorId) {
+    return request(baseURL + port + '/job/find/professorId/'+professorId+'/number/50', {
+        method: 'GET'
+    });
+}
+
+export async function findMostPopularJobs(jobId) {
+    return request(baseURL + port + '/job/find/mostPopular', {
+        method: 'GET'
+    });
+}

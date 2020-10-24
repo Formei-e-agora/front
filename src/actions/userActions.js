@@ -14,7 +14,7 @@ export const login = credentials => async dispatch => {
     const json = await serviceLogin(credentials);
     if (json.Status) {
         sessionStorage.setItem("token", json.token);
-        sessionStorage.setItem("userData", json.contactData);
+        sessionStorage.setItem("userData", JSON.stringify(json.userData));
         const user = { token: json.token, isAuthenticated: true };
         dispatch(userLoggedIn(user));
     } else {

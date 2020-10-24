@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Row, Col, Card, Tabs } from 'antd';
-import { Layout, UserCard } from '../../components/index';
+import { Layout, UserCard, ChangePasswordForm, ProfileForm, AddressForm } from '../../components/index';
+import { getUserData, getPersonData, getAddressData } from '../../actions/apiActions';
 
 const { TabPane } = Tabs;
 
 const Settings = (props) => {
+
+    useEffect(() => {
+        const id = JSON.parse(sessionStorage.getItem("userData")).userId;
+        props.getUserData(id);
+        props.getPersonData(id);
+        props.getAddressData(id);
+    }, []);
+
+    const updateStore = (id) => {
+        props.getPersonData(id);
+        props.getAddressData(id);
+    }
+
     return (
         <Layout currentLocation={props.history.location.pathname}>
             <Row justify="center" gutter={16}>
@@ -15,13 +30,13 @@ const Settings = (props) => {
                     <Card>
                         <Tabs defaultActiveKey="1">
                             <TabPane tab="Perfil" key="1">
-                                Form para alterar dados de perfil/contato
+                                <ProfileForm refresh={updateStore} />
                             </TabPane>
                             <TabPane tab="Endereço" key="2">
-                                Form para alterar dados do seu endereço
+                                <AddressForm refresh={updateStore} />
                             </TabPane>
                             <TabPane tab="Senha" key="3">
-                                Form para alterar senha/dados de login
+                                <ChangePasswordForm />
                             </TabPane>
                         </Tabs>
                     </Card>
@@ -31,4 +46,4 @@ const Settings = (props) => {
     );
 }
 
-export default Settings;
+export default connect(null, { getUserData, getPersonData, getAddressData })(Settings);

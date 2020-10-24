@@ -1,12 +1,9 @@
 import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { history } from '../../helpers';
-import { Feed, Jobs, Login, NotFound, Register, Settings, Notifications } from '../index';
+import { Feed, Jobs, Login, NotFound, Register, Settings, Notifications, UserManager } from '../index';
 import { PrivateRoute } from '../../components/index';
 import './App.css';
-
-// connect here to get usertype and render different components
-// https://stackoverflow.com/questions/44916839/how-do-i-utilize-dot-notation-when-rendering-components
 
 const App = () => (
   <Router history={history}>
@@ -18,6 +15,7 @@ const App = () => (
       <PrivateRoute exact path="/jobs" component={Jobs} />
       <PrivateRoute exact path="/settings" component={Settings} />
       <PrivateRoute exact path="/notifications" component={Notifications} />
+      <PrivateRoute exact path="/usermanager" component={UserManager} />
       <Route component={NotFound} />
     </Switch>
   </Router>

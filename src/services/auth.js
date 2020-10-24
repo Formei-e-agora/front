@@ -7,6 +7,12 @@ export async function findUser(userId) {
     });
 }
 
+export async function findUnlockInfo(userId) {
+    return request(baseURL + port + '/user/find/unlockInfo/userId/'+userId, {
+        method: 'GET'
+    });
+}
+
 export async function verifyUser(userId) {
     return request(baseURL + port + '/user/verify/userId/'+userId, {
         method: 'GET'
@@ -40,5 +46,14 @@ export async function changePassword(payload) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
+    });
+}
+
+export async function acceptUser(userId) {
+    return request(baseURL + port + '/user/accept/'+userId, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
 }

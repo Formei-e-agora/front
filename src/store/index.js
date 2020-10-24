@@ -5,10 +5,10 @@ import thunk from 'redux-thunk';
 import rootReducer from "../reducers/index";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-// const persistConfig = {
-//     key: 'root',
-//     storage
-// }
+const persistConfig = {
+    key: 'root',
+    storage
+}
 
 // persistConfig with blacklist example
 // const persistConfig = {
@@ -18,11 +18,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 // };
 
 // persistConfig with whitelist example
-const persistConfig = {
-    key: 'root',
-    storage: storage,
-    whitelist: ['user'] // only user will be persisted
-  };
+// const persistConfig = {
+//     key: 'root',
+//     storage: storage,
+//     whitelist: ['user'] // only user will be persisted
+//   };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
