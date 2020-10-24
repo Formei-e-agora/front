@@ -10,6 +10,8 @@ import ProfileForm from './Forms/ProfileForm';
 import AddressForm from './Forms/AddressForm';
 import JobForm from './Forms/JobForm';
 import CourseRequirementsForm from './Forms/CourseRequirementsForm';
+import RandomAvatar from './RandomAvatar/RandomAvatar';
+import JobDetails from './JobDetails/JobDetails';
 
 export {
     PrivateRoute,
@@ -23,5 +25,7 @@ export {
     ProfileForm,
     AddressForm,
     JobForm,
-    CourseRequirementsForm
+    CourseRequirementsForm,
+    RandomAvatar,
+    JobDetails
 }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { List, Card, Typography, Badge, Space, Tag, Divider, Button } from 'antd';
-import { EllipsisOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { List, Card, Typography, Badge, Space, Tag, Divider, Button, message, Result } from 'antd';
+import { EllipsisOutlined, EnvironmentOutlined, LikeOutlined, LikeTwoTone } from '@ant-design/icons';
+import { createSubscription } from '../../services/subscription';
+import NoData from '../../images/no_data.svg';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -14,21 +16,42 @@ const FeedContent = (props) => {
         if (userType === 1) {
             return [
                 <Space size="middle"><Badge count={item.subscription.length} showZero style={{ position: 'relative', top: '-2px' }} />Interessados</Space>,
-                <span><EllipsisOutlined style={{ marginRight: 8 }} />Mais Informações</span>
+                <span onClick={() => goToJob(item.jobId)}><EllipsisOutlined style={{ marginRight: 8 }} />Mais Informações</span>
             ];
         } else {
             return [
-
+                item.subscription.find((s) => s.studentId === userData.userId)
+                    ? <span><LikeTwoTone style={{ marginRight: 8 }} />Interessado</span>
+                    : <span onClick={() => subscribeToJob(item.jobId)}><LikeOutlined style={{ marginRight: 8 }} />Demonstrar Interesse</span>,
+                <span onClick={() => goToJob(item.jobId)}><EllipsisOutlined style={{ marginRight: 8 }} />Mais Informações</span>
             ];
         }
     }
 
+    const goToJob = (jobId) => {
+        props.selectJob(jobId);
+        props.history.push('/jobs');
+    }
+
     const onLoadMore = () => {
-        console.log("asd", fakePage)
         if (fakePage >= 50)
             nextFakePage(5)
         else
             nextFakePage(fakePage + 5)
+    }
+
+    const subscribeToJob = async (jobId) => {
+        const payload = {
+            jobId: jobId,
+            studentId: userData.userId,
+            isRecommended: false
+        }
+        const json = await createSubscription(payload);
+        if (json.Status) {
+            message.success("Ação realizada com sucesso!");
+            props.refresh();
+        } else
+            message.error("Falha em processar ação.");
     }
 
     if (props.data)
@@ -52,7 +75,7 @@ const FeedContent = (props) => {
                 ) : null}
                 renderItem={item => (
                     <List.Item>
-                        <Badge.Ribbon text={item.isActive ? "Oferta Ativa" : "Oferta Inativa"} color={item.isActive ? "#1890ff" : "#BEC8C"} placement="end">
+                        <Badge.Ribbon text={item.isActive ? "Oferta Ativa" : "Oferta Inativa"} color={item.isActive ? "#1890ff" : "#707070"} placement="end">
                             <Card
                                 headStyle={{ border: 0 }}
                                 actions={getActions(id, item)}
@@ -88,7 +111,10 @@ const FeedContent = (props) => {
             />
         );
     else
-        return null
+        return <Result
+            icon={<img src={NoData} alt="" style={{ display: 'block', margin: '0 auto', width: '35%' }} />}
+            title="Não foi cadastrada nenhuma vaga ainda."
+        />
 }
 
 export default FeedContent;
