@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { List, Card, Typography, Badge, Space, Tag, Divider, Button, message, Result } from 'antd';
-import { EllipsisOutlined, EnvironmentOutlined, LikeOutlined, LikeTwoTone } from '@ant-design/icons';
+import { List, Card, Typography, Badge, Space, Tag, Divider, Button, message, Result, notification, Row, Col } from 'antd';
+import { EllipsisOutlined, EnvironmentOutlined, LikeOutlined, LikeTwoTone, ContactsOutlined } from '@ant-design/icons';
 import { createSubscription } from '../../services/subscription';
+import { findPerson } from '../../services/person';
+import { departments } from '../../helpers/departments';
 import NoData from '../../images/no_data.svg';
 
 const { Title, Paragraph, Text } = Typography;
@@ -9,8 +11,8 @@ const { Title, Paragraph, Text } = Typography;
 const FeedContent = (props) => {
 
     const [fakePage, nextFakePage] = useState(5);
+    const [visible, showDrawer] = useState(false);
     const userData = JSON.parse(sessionStorage.getItem("userData"));
-    const id = userData.userId;
 
     const getActions = (userType, item) => {
         if (userType === 1) {
@@ -23,7 +25,8 @@ const FeedContent = (props) => {
                 item.subscription.find((s) => s.studentId === userData.userId)
                     ? <span><LikeTwoTone style={{ marginRight: 8 }} />Interessado</span>
                     : <span onClick={() => subscribeToJob(item.jobId)}><LikeOutlined style={{ marginRight: 8 }} />Demonstrar Interesse</span>,
-                <span onClick={() => goToJob(item.jobId)}><EllipsisOutlined style={{ marginRight: 8 }} />Mais Informações</span>
+                <span onClick={() => goToJob(item.jobId)}><EllipsisOutlined style={{ marginRight: 8 }} />Mais Informações</span>,
+                <span onClick={() => showNotificationInfo(item.professorId)}><ContactsOutlined style={{ marginRight: 8 }} />Contato</span>
             ];
         }
     }
@@ -54,6 +57,23 @@ const FeedContent = (props) => {
             message.error("Falha em processar ação.");
     }
 
+    const showNotificationInfo = async (id) => {
+        const json = await findPerson(id);
+        if (json.Status) {
+            notification.info({
+                duration: 0,
+                message: <h4>{json.personData.name} {json.personData.lastName}</h4>,
+                description: <>
+                    <h5>{departments[json.personData.department]}</h5>
+                    <h5>{json.personData.phone}</h5>
+                    <h5>{json.personData.email}</h5>
+                </>
+            });
+        } else {
+            message.error("Falha em buscar dados.");
+        }
+    }
+
     if (props.data)
         return (
             <List
@@ -78,7 +98,7 @@ const FeedContent = (props) => {
                         <Badge.Ribbon text={item.isActive ? "Oferta Ativa" : "Oferta Inativa"} color={item.isActive ? "#1890ff" : "#707070"} placement="end">
                             <Card
                                 headStyle={{ border: 0 }}
-                                actions={getActions(id, item)}
+                                actions={getActions(userData.userType, item)}
                             >
                                 <Typography>
                                     <Title level={4}>{item.title}</Title>

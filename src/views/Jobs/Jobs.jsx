@@ -122,7 +122,7 @@ const Jobs = (props) => {
             let newData = props.jobs.filter(j => j.jobId !== selectedJobData.jobId);
             newData.unshift(selectedJobData);
             setData(newData);
-        } else {
+        } else if (props.jobs && props.jobs.length > 0) {
             setData(props.jobs);
             setJob(props.jobs.find(j => j.jobId === job.jobId));
         }
@@ -200,7 +200,7 @@ const Jobs = (props) => {
                                     <Col span={8}>
                                         <List
                                             itemLayout="vertical"
-                                            dataSource={filteredData}
+                                            dataSource={filteredData || []}
                                             pagination={{ pageSize: 6 }}
                                             renderItem={item => (
                                                 <List.Item
@@ -248,7 +248,7 @@ const Jobs = (props) => {
                     </Col>
                 </Row>
             </Layout >
-            { modal.visibleJob &&
+            { 
                 <Modal
                     title="Editar vaga"
                     width={window.innerWidth >= 1600 ? "65%" : "75%"}
@@ -261,7 +261,7 @@ const Jobs = (props) => {
 
             }
 
-            { modal.visibleCourse &&
+            { 
                 < Modal
                     title="Editar cursos"
                     width={window.innerWidth >= 1600 ? "65%" : "75%"}
