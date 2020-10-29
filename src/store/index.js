@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import storageSession from 'redux-persist/lib/storage/session';
 import thunk from 'redux-thunk';
 import rootReducer from "../reducers/index";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const persistConfig = {
     key: 'root',
-    storage
+    storageSession
 }
 
 // persistConfig with blacklist example
