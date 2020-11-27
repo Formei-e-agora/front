@@ -7,7 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 const persistConfig = {
     key: 'root',
-    storageSession
+    storage: storageSession
 }
 
 // persistConfig with blacklist example

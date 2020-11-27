@@ -269,7 +269,7 @@ const Jobs = (props) => {
                     onCancel={() => { setModal({ ...modal, visibleCourse: false }); getJobFeed(); }}
                     footer={null}
                 >
-                    <CourseRequirementsForm jobId={job.jobId} />
+                    <CourseRequirementsForm jobId={job && job.jobId} />
                 </Modal>
             }
         </>

@@ -31,16 +31,10 @@ class Feed extends React.Component {
             ? this.props.getJobFeedData({ professorId: this.state.userData.userId })
             : this.props.getJobFeedData({ course: this.state.userData.course })
     }
-    
+
 
     getMostPopularData = async () => {
-        const json = await findMostPopularJobs();
-
-        if (json.Status) {
-            this.setState({ popularData: json.jobs });
-        } else {
-            console.log(json);
-        }
+        this.setState({ popularData: this.props.feed && this.props.feed.sort((a,b) => b.subscription.length - a.subscription.length) })
     }
 
     getTimeDifference = (date) => {
@@ -88,8 +82,8 @@ class Feed extends React.Component {
                                                         <Divider type="vertical" />
                                                         {
                                                             item.subscription
-                                                            ? `${item.subscription.length} interessado${item.subscription.length > 1 ? 's' : ''}`
-                                                            : item.company
+                                                                ? `${item.subscription.length} interessado${item.subscription.length > 1 ? 's' : ''}`
+                                                                : item.company
                                                         }
                                                     </div>
                                                 }
